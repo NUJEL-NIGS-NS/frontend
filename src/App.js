@@ -1,24 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import {AppContext} from './AppContext'
+
+import Register from './components/Register';
+import Home from './components/Home';
+import UserRegister from './components/UserRegister';
 
 function App() {
+  const [Token, setToken] = useState(0)
+
+  function updateToken(newToken) {
+    setToken(newToken);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   <AppContext.Provider value={{data:Token, updateToken:updateToken}} >
+  <div className="App">
+    {Token===0?<Register/>:<Home/>}
+  </div>
+</AppContext.Provider>
   );
 }
 
