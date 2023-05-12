@@ -2,6 +2,10 @@ import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from "../AppContext";
 import axios from 'axios';
 import { Baseurl } from '../contants/Baseurl';
+import NavBarh from './HomeComponents/NavBarh';
+import State from './HomeComponents/State';
+import {Routes,Route } from 'react-router-dom'
+import AP from './Analytics/AP';
 
 
 const Home = () => {
@@ -36,8 +40,14 @@ const Home = () => {
 
   return (
     <div>
-        {Details!={}?<h1>{Details.name}   ({Details.designation})</h1>:null}
-      <button onClick={handleLogout}>logout</button>
+        <NavBarh  data={Details} onClick={handleLogout} />
+        <Routes>
+        <Route path='/' element={<State/>}/>
+        <Route path='/AP' element={<AP/>}/>
+   
+        </Routes>
+        
+       
      
     </div>
   )

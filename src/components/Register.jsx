@@ -2,10 +2,13 @@ import React, { useContext, useState } from "react";
 import { AppContext } from "../AppContext";
 import axios from 'axios';
 import {Baseurl} from '../contants/Baseurl';
+import {useNavigate} from 'react-router-dom'
+import { Button } from "react-bootstrap";
 
 const Register = () => {
   const { data, updateToken } = useContext(AppContext);
   const [error, seterror] = useState('')
+  const navigate =useNavigate()
 
 
   const handleSubmit = async (event) => {
@@ -18,6 +21,8 @@ const Register = () => {
       
       if (response.data.token) {
         updateToken(response.data.token);
+        navigate('/')
+
       }
     } catch (error) {
     
@@ -44,6 +49,9 @@ const Register = () => {
         <button type="submit">Login</button>
       </form>
       <h1>{error}</h1>
+     
+     <Button onClick={()=>updateToken(1)}> Register a New User</Button>
+
     </div>
   );
 };
