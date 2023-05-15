@@ -6,9 +6,9 @@ const Manager = ({data}) => {
   return (
       <>  <h1 className="font-italic text-center">MANAGERS</h1>
     <div className="flip-card">
-      {data.map((item) => {
+      {data.map((item,index) => {
         return (
-            <div className="flip-card-inner">
+            <div className="flip-card-inner" key={index}>
             <div className="flip-card-front">
               <p className="title">Regional Manager</p>
               <p>{item.Regional_manager}</p>
@@ -16,10 +16,10 @@ const Manager = ({data}) => {
             <div className="flip-card-back">
         
             <br></br>
-            {item.business_executives.map((obj)=>{
-            return(<>
-                <p>{obj}</p>
-                </>
+            {item.business_executives.map((obj,index)=>{
+            return(
+                <p key={index}>{obj}</p>
+                
                 )
             } )}
             </div>

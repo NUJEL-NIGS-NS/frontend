@@ -4,7 +4,7 @@ import axios from 'axios';
 import {Baseurl} from '../contants/Baseurl';
 import {useNavigate} from 'react-router-dom'
 import { Button } from "react-bootstrap";
-
+import "../components/Register.css"
 const Register = () => {
   const { data, updateToken } = useContext(AppContext);
   const [error, seterror] = useState('')
@@ -37,21 +37,35 @@ const Register = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="username">
-          Username:
-          <input type="text" name="username" id="username" />
-        </label>
-        <label htmlFor="password">
-          Password:
-          <input type="password" name="password" id="password" />
-        </label>
-        <button type="submit">Login</button>
-      </form>
-      <h1>{error}</h1>
-     
-     <Button onClick={()=>updateToken(1)}> Register a New User</Button>
+ <div className="login-box">
+  <img  className="image" src="/images/icon1.png" alt="jjj" />
+  <form onSubmit={handleSubmit}>
+    <div className="user-box">
+      <input type="text" name="username" id="username"  />
+      <label>Username</label>
+    </div>
+    <div className="user-box">
+      <input type="password" name="password" id="password" />
+      <label>Password</label>
+    </div>
+    <center>
+    <small>{error}</small>
+      <Button type="submit">
+        Login
+        <span></span>
+      </Button>
+      
+    </center>
 
+  </form>
+  <br></br>
+  <div className="register-button-container text-center">
+     <Button onClick={()=>updateToken(1)}> Register a New User</Button>
+     </div>
+</div>
+
+      
+ 
     </div>
   );
 };

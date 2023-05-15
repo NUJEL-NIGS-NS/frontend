@@ -6,6 +6,8 @@ const NavBarh = ({ data, onClick }) => {
     <div>
       <Navbar expand="lg">
         <Container>
+        <img style={{height: '50px'}} src="/images/nav.png" alt="" />
+
           <Navbar.Brand>REVINTO ANALYTICS</Navbar.Brand>
           <Navbar.Toggle as="button" aria-expanded="false" aria-label="Toggle navigation" />
           <Navbar.Collapse id="navbarScroll" className="justify-content-end">

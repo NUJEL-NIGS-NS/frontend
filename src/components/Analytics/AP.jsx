@@ -5,15 +5,17 @@ import { Baseurl } from "../../contants/Baseurl";
 import { AppContext } from "../../AppContext";
 import Loading1 from "../LoadingComponents/Loading1";
 import PienChart from "../AnalyticalComponents/PienChart";
-import {Container,Row,Col} from 'react-bootstrap'
+import { Container, Row, Col } from "react-bootstrap";
 import ListChart from "../AnalyticalComponents/ListChart";
 
 import Manager from "../AnalyticalComponents/Manager";
+import MapCom from "../AnalyticalComponents/MapCom";
+import YerMonBar from "../AnalyticalComponents/YerMonBar";
 
 const AP = () => {
   const [MonData, setMonData] = useState([]);
   const [Pie, setPie] = useState([]);
-  const [ManData, setManData] = useState([])
+  const [ManData, setManData] = useState([]);
   const { data } = useContext(AppContext);
   const [Load, setLoad] = useState(false);
   axios.defaults.headers.common["Authorization"] = `Token ${data}`;
@@ -38,43 +40,42 @@ const AP = () => {
       console.log(error);
     }
   };
-  const getManData = async ()=>{
-    try{
-      const response = await axios.get(`${Baseurl}/AP/manager`) ;
-      if (response.data.status!=="error") {
-        setManData(response.data.status)
-        
+  const getManData = async () => {
+    try {
+      const response = await axios.get(`${Baseurl}/AP/manager`);
+      if (response.data.status !== "error") {
+        setManData(response.data.status);
       }
-    }
-    catch(error){
-
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
     monthlydata();
     pieData();
     getManData();
-  },[] );
+  }, []);
 
   return (
     <div>
       {Load ? <MonthlyChart data={MonData} /> : <Loading1 />}
       <Container>
-      <Row>
-      <hr/>
-        <Col md={6}>{Pie !== [] ? <PienChart data={Pie}></PienChart> : <Loading1 />}</Col>
-        <Col md={6}>{Pie !== [] ? <ListChart data={Pie}/> : <Loading1 />}</Col>
-      </Row>
-      <Row>
-      <Col md={6}>{ManData !== []?<Manager data={ManData}/>:<Loading1/>}</Col>
-      <Col md={6}>{ManData !== []?<Manager data={ManData}/>:<Loading1/>}</Col>
-
-      </Row>
-      
+        <Row>
+          <hr />
+          <Col md={6}>
+            {Pie !== [] ? <PienChart data={Pie}></PienChart> : <Loading1 />}
+          </Col>
+          <Col md={6}>
+            {Pie !== [] ? <ListChart data={Pie} /> : <Loading1 />}
+          </Col>
+        </Row>
+        <Row>
+          <Col md={6}>
+            {ManData !== [] ? <Manager data={ManData} /> : <Loading1 />}
+          </Col>
+          <Col md={6}>{ManData !== [] ? <MapCom /> : <Loading1 />}</Col>
+        </Row>
+         <YerMonBar/>
       </Container>
-      
-
     </div>
   );
 };

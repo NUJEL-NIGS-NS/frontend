@@ -40,33 +40,35 @@ const UserRegister = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <label>Email</label>
-        <input type="email" name="email" onChange={handleChange} />
+      <form onSubmit={handleSubmit} className="text-center  form">
+        <label className="label">Email</label >
+        <input className="input" type="email" name="email" onChange={handleChange} />
         {FieldError.email ? <small>*{FieldError.email[0]}</small> : null}
         <br />
-        <label>Full Name</label>
-        <input type="text" name="name" onChange={handleChange} />
+        <label className="label">Full Name</label>
+        <input className="input" type="text" name="name" onChange={handleChange} />
         {FieldError.name ? <small>*{FieldError.name[0]}</small> : null}
         <br />
-        <label>User Name</label>
-        <input type="text" name="username" onChange={handleChange} />
+        <label className="label">User Name</label >
+        <input className="input" type="text" name="username" onChange={handleChange} />
         {FieldError.username ? <small>*{FieldError.username[0]}</small> : null}
         <br />
-        <label>Password</label>
-        <input type="password" name="password" onChange={handleChange} />
+        <label className="label">Password</label >
+        <input className="input" type="password" name="password" onChange={handleChange} />
         {FieldError.password ? <small>*{FieldError.password[0]}</small> : null}
         <br />
-        <label>Confirm Password</label>
-        <input type="password" name="password2" onChange={handleChange} />
+        <label className="label">Confirm Password</label >
+        <input className="input" type="password" name="password2" onChange={handleChange} />
         {FieldError.password2 ? (
           <small>*{FieldError.password2[0]}</small>
         ) : null}
         <br />
-        <button type="submit">submit</button>
+        <button className="button" type="submit">submit</button>
+        <br />
+        <br />
+      <Button  onClick={()=> updateToken(0)}>Back to LogIn Page</Button>
       </form>
 
-      <Button onClick={()=> updateToken(0)}>LogIn</Button>
     </div>
   );
 };
