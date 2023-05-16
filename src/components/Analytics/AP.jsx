@@ -11,19 +11,21 @@ import ListChart from "../AnalyticalComponents/ListChart";
 import Manager from "../AnalyticalComponents/Manager";
 import MapCom from "../AnalyticalComponents/MapCom";
 import YerMonBar from "../AnalyticalComponents/YerMonBar";
+import ProductAnz from "../AnalyticalComponents/ProductAnz";
 
 const AP = () => {
   const [MonData, setMonData] = useState([]);
   const [Pie, setPie] = useState([]);
   const [ManData, setManData] = useState([]);
+  const [proData, setproData] = useState([])
   const { data } = useContext(AppContext);
   const [Load, setLoad] = useState(false);
+  const [mapData, setmapData] = useState([])
   axios.defaults.headers.common["Authorization"] = `Token ${data}`;
 
   const monthlydata = async () => {
     try {
       const response = await axios.get(`${Baseurl}/AP/monthly`);
-      console.log(response.data);
       setMonData(response.data);
       setLoad(true);
     } catch (error) {
@@ -48,11 +50,29 @@ const AP = () => {
       }
     } catch (error) {}
   };
+  const getProduct = async () => {
+    try {
+      const response = await axios.get(`${Baseurl}/AP/pro`);
+      if (response.data) {
+        setproData(response.data);
+      }
+    } catch (error) {}
+  };
+  const getMapData = async () => {
+    try {
+      const response = await axios.get(`${Baseurl}/AP/check`);
+      setmapData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     monthlydata();
     pieData();
     getManData();
+    getProduct();
+    getMapData();
   }, []);
 
   return (
@@ -68,13 +88,26 @@ const AP = () => {
             {Pie !== [] ? <ListChart data={Pie} /> : <Loading1 />}
           </Col>
         </Row>
+          <br />
+          <hr />
         <Row>
           <Col md={6}>
             {ManData !== [] ? <Manager data={ManData} /> : <Loading1 />}
           </Col>
-          <Col md={6}>{ManData !== [] ? <MapCom /> : <Loading1 />}</Col>
+          <Col md={6}>{mapData !== [] ? <MapCom data={mapData} /> : <Loading1 />}</Col>
+        <hr />
         </Row>
+
+          <br />
          <YerMonBar/>
+         <br />
+         <hr></hr>
+         <Row>
+
+          <Col md={6}><ProductAnz data={proData}/></Col>
+          <Col md={6}></Col>
+
+         </Row>
       </Container>
     </div>
   );

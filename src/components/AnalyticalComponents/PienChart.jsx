@@ -1,5 +1,5 @@
 import React from 'react';
-import { PieChart, Pie, Cell, Legend, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { scaleOrdinal } from "d3-scale";
 import { schemeCategory10 } from "d3-scale-chromatic";
 
@@ -7,7 +7,7 @@ const COLORS = scaleOrdinal(schemeCategory10).range();
 
 const PieChartComponent = ({ data }) => (
   <>
-    <h1 className="font-italic text-center">Sales Contribution</h1>
+    <h1 className="font-italic tecenterxt-">Sales Contribution</h1>
   <ResponsiveContainer width="100%" height={400}>
     <PieChart>
       <Pie
