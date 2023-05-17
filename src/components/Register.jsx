@@ -42,7 +42,7 @@ const Register = () => {
   <form onSubmit={handleSubmit}>
     <div className="user-box">
       <input type="text" name="username" id="username"  />
-      <label>Username</label>
+      <label>E-mail</label>
     </div>
     <div className="user-box">
       <input type="password" name="password" id="password" />

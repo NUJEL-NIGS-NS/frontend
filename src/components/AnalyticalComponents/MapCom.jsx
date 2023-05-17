@@ -14,7 +14,7 @@ const MapCom = ({ data }) => {
   });
   return (
     <div>
-      <DropdownButton id="dropdown-basic-button" title="Month">
+      <DropdownButton id="dropdown-basic-button" title="Manager">
         {Object.keys(data).map((item, index) => (
           <Dropdown.Item key={index} onClick={() => setmanName(item)}>
             {item}

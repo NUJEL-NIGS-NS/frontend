@@ -27,6 +27,7 @@ const UserRegister = () => {
     } catch (error) {
       if (error.response) {
         console.log(error.response.data);
+        alert(error.response.data)
       }
     }
   };

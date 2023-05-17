@@ -12,15 +12,18 @@ import Manager from "../AnalyticalComponents/Manager";
 import MapCom from "../AnalyticalComponents/MapCom";
 import YerMonBar from "../AnalyticalComponents/YerMonBar";
 import ProductAnz from "../AnalyticalComponents/ProductAnz";
+import BEMonAnl from "../AnalyticalComponents/BEMonAnl";
+import Uploadcsv from "../AnalyticalComponents/Uploadcsv";
 
 const AP = () => {
   const [MonData, setMonData] = useState([]);
   const [Pie, setPie] = useState([]);
   const [ManData, setManData] = useState([]);
-  const [proData, setproData] = useState([])
+  const [proData, setproData] = useState([]);
   const { data } = useContext(AppContext);
   const [Load, setLoad] = useState(false);
-  const [mapData, setmapData] = useState([])
+  const [mapData, setmapData] = useState([]);
+  const [BeMonData, setBeMonData] = useState(false);
   axios.defaults.headers.common["Authorization"] = `Token ${data}`;
 
   const monthlydata = async () => {
@@ -60,8 +63,16 @@ const AP = () => {
   };
   const getMapData = async () => {
     try {
-      const response = await axios.get(`${Baseurl}/AP/check`);
+      const response = await axios.get(`${Baseurl}/AP/geo`);
       setmapData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getBeMonData = async () => {
+    try {
+      const response = await axios.get(`${Baseurl}/AP/check`);
+      setBeMonData(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -73,6 +84,7 @@ const AP = () => {
     getManData();
     getProduct();
     getMapData();
+    getBeMonData();
   }, []);
 
   return (
@@ -80,7 +92,15 @@ const AP = () => {
       {Load ? <MonthlyChart data={MonData} /> : <Loading1 />}
       <Container>
         <Row>
-          <hr />
+          <hr
+            style={{
+              height: 2,
+              borderWidth: 0,
+              color: "gray",
+              backgroundColor: "gray",
+            }}
+          />
+
           <Col md={6}>
             {Pie !== [] ? <PienChart data={Pie}></PienChart> : <Loading1 />}
           </Col>
@@ -88,26 +108,80 @@ const AP = () => {
             {Pie !== [] ? <ListChart data={Pie} /> : <Loading1 />}
           </Col>
         </Row>
-          <br />
-          <hr />
+        <br />
+        <hr
+          style={{
+            height: 2,
+            borderWidth: 0,
+            color: "gray",
+            backgroundColor: "gray",
+          }}
+        />
+
         <Row>
           <Col md={6}>
             {ManData !== [] ? <Manager data={ManData} /> : <Loading1 />}
           </Col>
-          <Col md={6}>{mapData !== [] ? <MapCom data={mapData} /> : <Loading1 />}</Col>
-        <hr />
+          <Col md={6}>
+            {mapData !== [] ? <MapCom data={mapData} /> : <Loading1 />}
+          </Col>
+          <hr
+            style={{
+              height: 2,
+              borderWidth: 0,
+              color: "gray",
+              backgroundColor: "gray",
+            }}
+          />
+        </Row>
+        <Row>
+          <br />
+          <Col>
+            <YerMonBar />
+          </Col>
+          <br />
+          <hr
+            style={{
+              height: 2,
+              borderWidth: 0,
+              color: "gray",
+              backgroundColor: "gray",
+            }}
+          />
         </Row>
 
-          <br />
-         <YerMonBar/>
-         <br />
-         <hr></hr>
-         <Row>
+        <Row>
+          <Col md={12} style={{ marginBottom: "20px" }}>
+            <ProductAnz data={proData} />
+          </Col>
+        </Row>
+        <hr
+          style={{
+            height: 2,
+            borderWidth: 0,
+            color: "gray",
+            backgroundColor: "gray",
+          }}
+        />
 
-          <Col md={6}><ProductAnz data={proData}/></Col>
-          <Col md={6}></Col>
-
-         </Row>
+        <Row>
+          <Col md={12} style={{ marginTop: "20px", marginBottom: "20px" }}>
+            {!BeMonData ? <Loading1 /> : <BEMonAnl data={BeMonData} />}
+          </Col>
+        </Row>
+        <hr
+          style={{
+            height: 2,
+            borderWidth: 0,
+            color: "gray",
+            backgroundColor: "gray",
+          }}
+        />
+        <Row>
+          <Col md={12}>
+            <Uploadcsv />
+          </Col>
+        </Row>
       </Container>
     </div>
   );

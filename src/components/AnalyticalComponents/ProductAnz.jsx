@@ -75,7 +75,7 @@ const ProductAnz = ({ data }) => {
   ];
 
   return (
-    <div style={{ width: "100%", height: 300 }}>
+    <div>
       <h1 className="font-italic text-center">
         Top Products Based On Sales/Quantity
       </h1>
@@ -99,10 +99,8 @@ const ProductAnz = ({ data }) => {
       >
         Total
       </Button>
-      <ResponsiveContainer>
+      <ResponsiveContainer width="100%" height={400}>
         <ComposedChart
-          width={500}
-          height={400}
           data={proDat}
           margin={{
             top: 20,
@@ -121,8 +119,9 @@ const ProductAnz = ({ data }) => {
           <Line type="monotone" dataKey="sales" stroke="#ff7300" />
         </ComposedChart>
       </ResponsiveContainer>
+
       <small>{erMsg ? erMsg : ""}</small>
-      <div style={{ display: "flex", alignItems: "center", marginTop: "10px" }}>
+      <div style={{ display: "flex", alignItems: "center", marginTop: "10px" , width:"100%"}}>
         <DropdownButton
           id="dropdown-basic-button"
           title="Month"
