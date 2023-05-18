@@ -8,8 +8,16 @@ const MapCom = ({ data }) => {
 
   const position = [16.5131, 80.5165];
 
-  const icon = L.icon({
-    iconUrl: "images/nav.png",
+  const iconHq = L.icon({
+    iconUrl: "images/hqicon.png",
+    iconSize: [32, 32],
+  });
+  const iconC = L.icon({
+    iconUrl: "images/cityicon.png",
+    iconSize: [32, 32],
+  });
+  const iconP = L.icon({
+    iconUrl: "images/placeicon.png",
     iconSize: [32, 32],
   });
   return (
@@ -33,23 +41,10 @@ const MapCom = ({ data }) => {
           maxZoom={18}
         />
         {data[manName]?.map((item) => (
-          <Marker key={item.Place} position={item.PlaceGeo} icon={icon}>
+          <Marker key={item.Place} position={item.PlaceGeo} icon={iconP}>
             <Popup>{item.Place}</Popup>
           </Marker>
         ))}
-
-       {data[manName]
-          ?.filter((item, index, array) => {
-            // Return true for the first occurrence of each unique item
-            return (
-              array.findIndex((element) => element.Head_quarters === item.Head_quarters) === index
-            );
-          })
-          .map((item) => (
-            <Marker key={item.Head_quarters} position={item.HqGeo} icon={icon}>
-              <Popup>{item.Head_quarters}</Popup>
-            </Marker>
-          ))}
 
         {data[manName]
           ?.filter((item, index, array) => {
@@ -59,8 +54,27 @@ const MapCom = ({ data }) => {
             );
           })
           .map((item) => (
-            <Marker key={item.City} position={item.cityGeo} icon={icon}>
+            <Marker key={item.City} position={item.cityGeo} icon={iconC}>
               <Popup>{item.City}</Popup>
+            </Marker>
+          ))}
+          
+        {data[manName]
+          ?.filter((item, index, array) => {
+            // Return true for the first occurrence of each unique item
+            return (
+              array.findIndex(
+                (element) => element.Head_quarters === item.Head_quarters
+              ) === index
+            );
+          })
+          .map((item) => (
+            <Marker
+              key={item.Head_quarters}
+              position={item.HqGeo}
+              icon={iconHq}
+            >
+              <Popup>{item.Head_quarters}</Popup>
             </Marker>
           ))}
       </MapContainer>

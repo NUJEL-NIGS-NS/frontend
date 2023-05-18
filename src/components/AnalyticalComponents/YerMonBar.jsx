@@ -40,7 +40,7 @@ function MyDropdown() {
 
   const [BarData, setBarData] = useState(false);
   const [month, setmonth] = useState("");
-  const [year, setyear] = useState(0);
+  const [year, setyear] = useState(2022);
   const getBarData = async () => {
     try {
       const response = await axios(
@@ -75,6 +75,7 @@ function MyDropdown() {
                 type="number"
                 className="year-input"
                 onChange={(e) => setyear(e.target.value)}
+                value={year}
               ></input>
               <br></br>
               <Button onClick={handleClick}>Search</Button>

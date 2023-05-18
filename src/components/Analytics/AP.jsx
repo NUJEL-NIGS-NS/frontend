@@ -7,13 +7,14 @@ import Loading1 from "../LoadingComponents/Loading1";
 import PienChart from "../AnalyticalComponents/PienChart";
 import { Container, Row, Col } from "react-bootstrap";
 import ListChart from "../AnalyticalComponents/ListChart";
-
+import { DropdownButton, Dropdown } from "react-bootstrap";
 import Manager from "../AnalyticalComponents/Manager";
 import MapCom from "../AnalyticalComponents/MapCom";
 import YerMonBar from "../AnalyticalComponents/YerMonBar";
 import ProductAnz from "../AnalyticalComponents/ProductAnz";
 import BEMonAnl from "../AnalyticalComponents/BEMonAnl";
 import Uploadcsv from "../AnalyticalComponents/Uploadcsv";
+import AgencyaAnalysis from "../AnalyticalComponents/AgencyaAnalysis";
 
 const AP = () => {
   const [MonData, setMonData] = useState([]);
@@ -24,6 +25,9 @@ const AP = () => {
   const [Load, setLoad] = useState(false);
   const [mapData, setmapData] = useState([]);
   const [BeMonData, setBeMonData] = useState(false);
+  const [finacialYear, setFinacialYear] = useState([]);
+  const [fetchFnYear, setfetchFnYear] = useState(false);
+  const [agencyData, setAgencyData] = useState(false)
   axios.defaults.headers.common["Authorization"] = `Token ${data}`;
 
   const monthlydata = async () => {
@@ -71,8 +75,24 @@ const AP = () => {
   };
   const getBeMonData = async () => {
     try {
-      const response = await axios.get(`${Baseurl}/AP/check`);
+      const response = await axios.get(`${Baseurl}/AP/be`);
       setBeMonData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getFinancialYear = async () => {
+    try {
+      const response = await axios.get(`${Baseurl}/AP/financialyear`);
+      setFinacialYear(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getAgency = async () => {
+    try {
+      const response = await axios.get(`${Baseurl}/AP/agency`);
+      setAgencyData(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -85,7 +105,25 @@ const AP = () => {
     getProduct();
     getMapData();
     getBeMonData();
+    getFinancialYear();
+    getAgency();
   }, []);
+
+  const handleFinYearClick = async () => {
+    try {
+      const response = await axios.get(`${Baseurl}/AP/pie?year=${fetchFnYear}`);
+      if (response.data.status !== "error") {
+        setPie(response.data.status);
+        console.log(response.data.status);
+        console.log(fetchFnYear);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    handleFinYearClick();
+  }, [fetchFnYear]);
 
   return (
     <div>
@@ -100,6 +138,13 @@ const AP = () => {
               backgroundColor: "gray",
             }}
           />
+          <DropdownButton id="dropdown-basic-button" title="Financial Year">
+            {finacialYear?.map((item, index) => (
+              <Dropdown.Item key={index} onClick={() => setfetchFnYear(item)}>
+                {item}
+              </Dropdown.Item>
+            ))}
+          </DropdownButton>
 
           <Col md={6}>
             {Pie !== [] ? <PienChart data={Pie}></PienChart> : <Loading1 />}
@@ -178,8 +223,19 @@ const AP = () => {
           }}
         />
         <Row>
+          {!agencyData?<Loading1/>:<AgencyaAnalysis data={agencyData} />}
+        </Row>
+        <hr
+          style={{
+            height: 2,
+            borderWidth: 0,
+            color: "gray",
+            backgroundColor: "gray",
+          }}
+        />
+        <Row>
           <Col md={12}>
-            <Uploadcsv />
+            <Uploadcsv finYear={finacialYear} />
           </Col>
         </Row>
       </Container>

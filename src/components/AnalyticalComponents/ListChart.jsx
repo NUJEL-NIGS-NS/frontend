@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import Table from "react-bootstrap/Table";
 
 const ListChart = ({ data }) => {
+  // Calculate total sales
+  const totalSales = data.reduce((accumulator, item) => {
+    return accumulator + item.total_sales;
+  }, 0);
+
   return (
     <>
-    <br/>
+      <br />
       <Table striped bordered hover variant="dark">
         <thead>
           <tr>
             <th>#</th>
-
             <th>Business Executive</th>
             <th>Total Sales</th>
           </tr>
@@ -24,6 +28,11 @@ const ListChart = ({ data }) => {
               </tr>
             );
           })}
+          <tr>
+            <td>#</td>
+            <td>Total Sales:</td>
+            <td>{totalSales}</td>
+          </tr>
         </tbody>
       </Table>
     </>
