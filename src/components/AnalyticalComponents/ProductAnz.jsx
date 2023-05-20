@@ -15,7 +15,7 @@ import {
 } from "recharts";
 import { Baseurl } from "../../contants/Baseurl";
 
-const ProductAnz = ({ data }) => {
+const ProductAnz = ({ data,path }) => {
   const [proDat, setproDat] = useState([]);
   const [click, setclick] = useState(false);
   const [top, settop] = useState(5);
@@ -34,7 +34,7 @@ const ProductAnz = ({ data }) => {
       seterMsg("");
       try {
         const response = await axios.get(
-          `${Baseurl}/AP/pro?month=${month}&year=${year}`
+          `${Baseurl}/${path}/pro?month=${month}&year=${year}`
         );
         if (response.data) {
           setnewData(response.data);

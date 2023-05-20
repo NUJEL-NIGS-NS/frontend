@@ -22,7 +22,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-function MyDropdown() {
+function MyDropdown({path}) {
   const months = [
     "January",
     "February",
@@ -44,7 +44,7 @@ function MyDropdown() {
   const getBarData = async () => {
     try {
       const response = await axios(
-        `${Baseurl}/AP/Bar?month=${month}&year=${year}`
+        `${Baseurl}/${path}/Bar?month=${month}&year=${year}`
       );
       if (response.data) {
         setBarData(response.data);

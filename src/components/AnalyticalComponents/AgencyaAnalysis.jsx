@@ -5,7 +5,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import { Baseurl } from '../../contants/Baseurl';
 import Table from "react-bootstrap/Table";
 
-const AgencyaAnalysis = ({ data }) => {
+const AgencyaAnalysis = ({ data ,path }) => {
   const [month, setMonth] = useState('');
   const [businessExecutive, setBusinessExecutive] = useState(null);
   const [agency, setAgency] = useState("")
@@ -13,7 +13,7 @@ const AgencyaAnalysis = ({ data }) => {
   
   const handleClick =async ()=>{
     try{
-        const response = await axios.get(`${Baseurl}/AP/agency/filter?month=${month}&be=${businessExecutive}&agency=${agency}`)
+        const response = await axios.get(`${Baseurl}/${path}/agency/filter?month=${month}&be=${businessExecutive}&agency=${agency}`)
         if (response.data) {
             setBillData(response.data)
         }

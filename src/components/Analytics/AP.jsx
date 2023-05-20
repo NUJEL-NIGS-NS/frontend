@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import MonthlyChart from "../AnalyticalComponents/MonthlyChart";
 import axios from "axios";
 import { Baseurl } from "../../contants/Baseurl";
-import { AppContext } from "../../AppContext";
+import { AppContext, StateContext } from "../../AppContext";
 import Loading1 from "../LoadingComponents/Loading1";
 import PienChart from "../AnalyticalComponents/PienChart";
 import { Container, Row, Col } from "react-bootstrap";
@@ -22,26 +22,25 @@ const AP = () => {
   const [ManData, setManData] = useState([]);
   const [proData, setproData] = useState([]);
   const { data } = useContext(AppContext);
-  const [Load, setLoad] = useState(false);
+  const { StatePath, stateName } = useContext(StateContext);
   const [mapData, setmapData] = useState([]);
   const [BeMonData, setBeMonData] = useState(false);
   const [finacialYear, setFinacialYear] = useState([]);
   const [fetchFnYear, setfetchFnYear] = useState(false);
-  const [agencyData, setAgencyData] = useState(false)
+  const [agencyData, setAgencyData] = useState(false);
   axios.defaults.headers.common["Authorization"] = `Token ${data}`;
 
   const monthlydata = async () => {
     try {
-      const response = await axios.get(`${Baseurl}/AP/monthly`);
+      const response = await axios.get(`${Baseurl}/${StatePath}/monthly`);
       setMonData(response.data);
-      setLoad(true);
     } catch (error) {
       console.log(error);
     }
   };
   const pieData = async () => {
     try {
-      const response = await axios.get(`${Baseurl}/AP/pie`);
+      const response = await axios.get(`${Baseurl}/${StatePath}/pie`);
       if (response.data.status !== "error") {
         setPie(response.data.status);
       }
@@ -51,7 +50,7 @@ const AP = () => {
   };
   const getManData = async () => {
     try {
-      const response = await axios.get(`${Baseurl}/AP/manager`);
+      const response = await axios.get(`${Baseurl}/${StatePath}/manager`);
       if (response.data.status !== "error") {
         setManData(response.data.status);
       }
@@ -59,7 +58,7 @@ const AP = () => {
   };
   const getProduct = async () => {
     try {
-      const response = await axios.get(`${Baseurl}/AP/pro`);
+      const response = await axios.get(`${Baseurl}/${StatePath}/pro`);
       if (response.data) {
         setproData(response.data);
       }
@@ -67,7 +66,7 @@ const AP = () => {
   };
   const getMapData = async () => {
     try {
-      const response = await axios.get(`${Baseurl}/AP/geo`);
+      const response = await axios.get(`${Baseurl}/${StatePath}/geo`);
       setmapData(response.data);
     } catch (error) {
       console.log(error);
@@ -75,7 +74,7 @@ const AP = () => {
   };
   const getBeMonData = async () => {
     try {
-      const response = await axios.get(`${Baseurl}/AP/be`);
+      const response = await axios.get(`${Baseurl}/${StatePath}/be`);
       setBeMonData(response.data);
     } catch (error) {
       console.log(error);
@@ -83,7 +82,7 @@ const AP = () => {
   };
   const getFinancialYear = async () => {
     try {
-      const response = await axios.get(`${Baseurl}/AP/financialyear`);
+      const response = await axios.get(`${Baseurl}/${StatePath}/financialyear`);
       setFinacialYear(response.data);
     } catch (error) {
       console.log(error);
@@ -91,7 +90,7 @@ const AP = () => {
   };
   const getAgency = async () => {
     try {
-      const response = await axios.get(`${Baseurl}/AP/agency`);
+      const response = await axios.get(`${Baseurl}/${StatePath}/agency`);
       setAgencyData(response.data);
     } catch (error) {
       console.log(error);
@@ -111,7 +110,9 @@ const AP = () => {
 
   const handleFinYearClick = async () => {
     try {
-      const response = await axios.get(`${Baseurl}/AP/pie?year=${fetchFnYear}`);
+      const response = await axios.get(
+        `${Baseurl}/${StatePath}/pie?year=${fetchFnYear}`
+      );
       if (response.data.status !== "error") {
         setPie(response.data.status);
         console.log(response.data.status);
@@ -127,7 +128,12 @@ const AP = () => {
 
   return (
     <div>
-      {Load ? <MonthlyChart data={MonData} /> : <Loading1 />}
+      {MonData.length === 0 ? (
+        <Loading1 />
+      ) : (
+        <MonthlyChart data={MonData} name={stateName} />
+      )}
+
       <Container>
         <Row>
           <hr
@@ -147,10 +153,10 @@ const AP = () => {
           </DropdownButton>
 
           <Col md={6}>
-            {Pie !== [] ? <PienChart data={Pie}></PienChart> : <Loading1 />}
+            {Pie.length === 0 ? <Loading1 /> : <PienChart data={Pie} />}
           </Col>
           <Col md={6}>
-            {Pie !== [] ? <ListChart data={Pie} /> : <Loading1 />}
+            {Pie.length === 0 ? <Loading1 /> : <ListChart data={Pie} />}
           </Col>
         </Row>
         <br />
@@ -182,7 +188,7 @@ const AP = () => {
         <Row>
           <br />
           <Col>
-            <YerMonBar />
+            <YerMonBar path={StatePath} />
           </Col>
           <br />
           <hr
@@ -197,7 +203,7 @@ const AP = () => {
 
         <Row>
           <Col md={12} style={{ marginBottom: "20px" }}>
-            <ProductAnz data={proData} />
+            <ProductAnz data={proData} path={StatePath} />
           </Col>
         </Row>
         <hr
@@ -223,7 +229,11 @@ const AP = () => {
           }}
         />
         <Row>
-          {!agencyData?<Loading1/>:<AgencyaAnalysis data={agencyData} />}
+          {!agencyData ? (
+            <Loading1 />
+          ) : (
+            <AgencyaAnalysis data={agencyData} path={StatePath} />
+          )}
         </Row>
         <hr
           style={{
@@ -235,7 +245,7 @@ const AP = () => {
         />
         <Row>
           <Col md={12}>
-            <Uploadcsv finYear={finacialYear} />
+            <Uploadcsv finYear={finacialYear} path={StatePath} />
           </Col>
         </Row>
       </Container>

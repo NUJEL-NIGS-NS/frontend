@@ -10,12 +10,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const MonthlyChart = ({ data }) => {
+const MonthlyChart = ({ data ,name}) => {
 
   return (
     <Container fluid>
         <hr></hr>
-        <h1 className="font-italic text-center">ANDHRA PRADESH TOTAL SALES MONTHLY</h1>
+        <h1 className="font-italic text-center">{name} TOTAL SALES MONTHLY</h1>
       <ResponsiveContainer width="100%" height={400}>
         <AreaChart
           data={data.status}

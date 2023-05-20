@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Baseurl } from "../../contants/Baseurl";
 import { DropdownButton, Dropdown, Button } from "react-bootstrap";
 
-const Upload_csv = ({ finYear }) => {
+const Upload_csv = ({ finYear ,path }) => {
   const [file, setFile] = useState(null);
   const [year, setYear] = useState(finYear[0]);
 
@@ -25,7 +25,7 @@ const Upload_csv = ({ finYear }) => {
     try {
       const formData = new FormData();
       formData.append("file", file, file.name); // Set the file with the key "file"
-      const response = await axios.post(`${Baseurl}/AP/upload`, formData);
+      const response = await axios.post(`${Baseurl}/${path}/upload`, formData);
       alert(response.data.status);
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -38,7 +38,7 @@ const Upload_csv = ({ finYear }) => {
     if (result) {
       try {
         const response = await axios.get(
-          `${Baseurl}/AP/delete?fin-year=${year}`
+          `${Baseurl}/${path}/delete?fin-year=${year}`
         );
         alert(response.data.status);
       } catch (error) {
